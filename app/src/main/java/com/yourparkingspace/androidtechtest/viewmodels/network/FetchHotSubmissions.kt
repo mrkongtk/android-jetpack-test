@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-object GetHotSubmissions {
+object FetchHotSubmissions {
 
     interface Api {
         @GET("r/technology/hot.json")
