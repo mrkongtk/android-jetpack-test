@@ -2,6 +2,9 @@ package com.yourparkingspace.androidtechtest.views
 
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
@@ -12,12 +15,14 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,11 +35,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.yourparkingspace.androidtechtest.models.HotSubmissionListViewData
 import com.yourparkingspace.androidtechtest.ui.theme.AndroidTechTestTheme
 import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.GetHotSubmissions
 import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.ScrollReachEdgeListener
 import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.StatedBoolean
+import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.StatedString
 import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.SubmissionListViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -47,30 +54,37 @@ class MainActivity : ComponentActivity() {
     private val submissionListViewModel = SubmissionListViewModel()
     private var loadedData: HotSubmissionListViewData? = null
     private var isLoading = StatedBoolean(false)
+    private var showContent = StatedBoolean(false)
+    private var showContentUrl = StatedString(String())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AndroidTechTestTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     MainView(
                         isLoading,
+                        showContent,
+                        showContentUrl,
                         submissionListViewModel, object : ScrollReachEdgeListener {
                             override fun onReachEnd() {
                                 loadData(loadedData?.after)
                             }
                         })
-
                 }
             }
         }
-        loadData(null)
+        loadData(loadedData?.after)
     }
 
     override fun onDestroy() {
         mCompositeDisposable.dispose()
         super.onDestroy()
     }
+
     private fun loadData(after: String?) {
         synchronized(mCompositeDisposable) {
             if (isLoading.value) {
@@ -99,16 +113,22 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainView(
     isLoading: StatedBoolean,
+    showContent: StatedBoolean,
+    showContentUrl: StatedString,
     viewModel: SubmissionListViewModel,
     onReachEndListener: ScrollReachEdgeListener?
 ) {
-    ShowList(viewModel, onReachEndListener)
+
+    ShowList(viewModel, onReachEndListener, showContent, showContentUrl)
+    ShowWebContent(showContent, showContentUrl)
     LoadingView(isLoading)
 }
 
 @Composable
 fun ShowList(viewModel: SubmissionListViewModel,
-             onReachEndListener: ScrollReachEdgeListener?, ){
+             onReachEndListener: ScrollReachEdgeListener?,
+             showContent: StatedBoolean,
+             showContentUrl: StatedString,){
     val todoListState = viewModel.listStateFlow.collectAsState()
 
     val scrollState = rememberLazyListState()
@@ -129,7 +149,8 @@ fun ShowList(viewModel: SubmissionListViewModel,
                 modifier = Modifier
                     .padding(vertical = 4.dp, horizontal = 8.dp)
                     .clickable {
-                        println("clicked: " + item.id)
+                        showContent.value = true
+                        showContentUrl.value = item.url
                     }
             ) {
                 Column(
@@ -158,6 +179,51 @@ fun ShowList(viewModel: SubmissionListViewModel,
 }
 
 @Composable
+fun ShowWebContent(
+    showContent: StatedBoolean,
+    showContentUrl: StatedString,
+){
+    if (showContent.value) {
+
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End
+            ) {
+                OutlinedButton(
+                    modifier = Modifier.padding(4.dp).width(50.dp),
+                    onClick = { showContent.value = false }
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .weight(1f),
+                        textAlign = TextAlign.Center,
+                        text = "X"
+                    )
+                }
+                AndroidView(factory = {
+                    WebView(it).apply {
+                        layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                        webViewClient = WebViewClient()
+                        loadUrl(showContentUrl.value)
+                    }
+                }, update = {
+                    it.loadUrl(showContentUrl.value)
+                })
+            }
+
+        }
+    }
+}
+
+@Composable
 fun LoadingView(isLoading: StatedBoolean) {
     if (isLoading.value){
         Surface(
@@ -182,24 +248,9 @@ fun MainTodoViewPreview() {
     AndroidTechTestTheme {
         MainView(
             StatedBoolean(true),
+            StatedBoolean(true),
+            StatedString("https://www.google.com"),
             SubmissionListViewModel(),
-            null
-        )
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-            text = "Hello $name!",
-            modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AndroidTechTestTheme {
-        Greeting("Android")
+            null)
     }
 }
