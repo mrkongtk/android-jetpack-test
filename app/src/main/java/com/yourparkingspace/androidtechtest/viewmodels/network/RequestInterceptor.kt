@@ -4,6 +4,11 @@ import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Response
 
+/**
+ * The network interceptor used to intercept and modify outgoing requests.
+ * This object allows developers to add custom headers or authorization tokens to requests
+ * by implementing the appropriate functions here.
+ */
 object RequestInterceptor : Interceptor {
 
     private val TAG = RequestInterceptor::class.simpleName

@@ -129,7 +129,7 @@ fun ShowList(viewModel: SubmissionListViewModel,
              onReachEndListener: ScrollReachEdgeListener?,
              showContent: StatedBoolean,
              showContentUrl: StatedString,){
-    val todoListState = viewModel.listStateFlow.collectAsState()
+    val submissionListState = viewModel.listStateFlow.collectAsState()
 
     val scrollState = rememberLazyListState()
 
@@ -142,7 +142,7 @@ fun ShowList(viewModel: SubmissionListViewModel,
     LazyColumn(state = scrollState,
         modifier = Modifier.fillMaxHeight()) {
 
-        items(items = todoListState.value, itemContent = {
+        items(items = submissionListState.value, itemContent = {
                 item ->
             Card(
 //                backgroundColor = MaterialTheme.colorScheme.primary,
@@ -244,7 +244,7 @@ fun LoadingView(isLoading: StatedBoolean) {
 
 @Preview(showBackground = true)
 @Composable
-fun MainTodoViewPreview() {
+fun MainViewPreview() {
     AndroidTechTestTheme {
         MainView(
             StatedBoolean(true),
