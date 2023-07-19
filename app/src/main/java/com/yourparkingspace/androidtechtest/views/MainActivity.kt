@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.yourparkingspace.androidtechtest.BuildConfig
 import com.yourparkingspace.androidtechtest.models.HotSubmissionListViewData
 import com.yourparkingspace.androidtechtest.ui.theme.AndroidTechTestTheme
 import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.GetHotSubmissions
@@ -52,6 +53,7 @@ class MainActivity : ComponentActivity() {
 
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val submissionListViewModel = SubmissionListViewModel()
+    private val hotSubmissionsRetriever by lazy { GetHotSubmissions(BuildConfig.BASE_URL) }
     private var loadedData: HotSubmissionListViewData? = null
     private var isLoading = StatedBoolean(false)
     private var showContent = StatedBoolean(false)
@@ -93,7 +95,7 @@ class MainActivity : ComponentActivity() {
             isLoading.value = true
         }
         mCompositeDisposable.add(
-            GetHotSubmissions.execute(after)
+            hotSubmissionsRetriever.execute(after)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { x ->

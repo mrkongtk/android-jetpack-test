@@ -9,7 +9,7 @@ import okhttp3.Response
  * This object allows developers to add custom headers or authorization tokens to requests
  * by implementing the appropriate functions here.
  */
-object RequestInterceptor : Interceptor {
+class RequestInterceptor : Interceptor {
 
     private val TAG = RequestInterceptor::class.simpleName
 

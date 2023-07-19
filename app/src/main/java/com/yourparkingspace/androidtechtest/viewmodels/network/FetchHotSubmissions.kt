@@ -1,6 +1,5 @@
 package com.yourparkingspace.androidtechtest.viewmodels.network
 
-import com.yourparkingspace.androidtechtest.BuildConfig
 import com.yourparkingspace.androidtechtest.models.GetHotSubmissionResponseData
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -14,7 +13,7 @@ import retrofit2.http.Query
 /**
  * This object provides functionality to fetch hot submissions from the "r/technology" subreddit.
  */
-object FetchHotSubmissions {
+class FetchHotSubmissions (baseUrl: String) {
 
     /**
      * The API interface for fetching hot submissions
@@ -35,16 +34,22 @@ object FetchHotSubmissions {
                 : Observable<GetHotSubmissionResponseData>
     }
 
+    private val httpRequestClient by lazy { HttpRequestClient().getClient() }
+    private val adapterFactory by lazy { RxJava3CallAdapterFactory.create() }
+    private val gsonConverterFactory by lazy { GsonConverterFactory.create() }
+
     /**
      * The network connection client used to make API requests.
      * It is created with default settings, allowing for immediate use without the need to recreate it.
      */
-    private val requestInterface = Retrofit.Builder()
-        .client(HttpRequestClient.getClient())
-        .baseUrl(BuildConfig.BASE_URL)
-        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build().create(Api::class.java)
+    private val requestInterface by lazy {
+        Retrofit.Builder()
+            .client(httpRequestClient)
+            .baseUrl(baseUrl)
+            .addCallAdapterFactory(adapterFactory)
+            .addConverterFactory(gsonConverterFactory)
+            .build().create(Api::class.java)
+    }
 
     /**
      * Executes the request to fetch hot submissions.

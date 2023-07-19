@@ -1,6 +1,5 @@
 package com.yourparkingspace.androidtechtest.viewmodels.viewassistant
 
-import com.yourparkingspace.androidtechtest.BuildConfig
 import com.yourparkingspace.androidtechtest.models.GetHotSubmissionResponseData
 import com.yourparkingspace.androidtechtest.models.HotSubmissionListViewData
 import com.yourparkingspace.androidtechtest.models.SubmissionViewData
@@ -12,7 +11,9 @@ import io.reactivex.rxjava3.core.Observable
  * It provides a method to execute the retrieval of hot submissions and converts the response data
  * into a format suitable for the UI.
  */
-object GetHotSubmissions {
+class GetHotSubmissions(private val baseUrl: String) {
+
+    private val hotSubmissionsFetcher by lazy { FetchHotSubmissions(baseUrl) }
 
     /**
      * Executes the retrieval of hot submissions.
@@ -20,9 +21,9 @@ object GetHotSubmissions {
      * @return An Observable emitting the converted hot submission data suitable for the UI.
      */
     fun execute(after: String? = null): Observable<HotSubmissionListViewData> {
-        return FetchHotSubmissions
+        return hotSubmissionsFetcher
             .execute(after)
-            .map{x -> convert(x)}
+            .map { x -> convert(x) }
     }
 
     /**
@@ -37,7 +38,7 @@ object GetHotSubmissions {
                     y.data.id,
                     y.data.title,
                     y.data.authorFullName,
-                    BuildConfig.BASE_URL + y.data.permalink
+                    baseUrl + y.data.permalink
                 )
             })
     }
