@@ -1,4 +1,4 @@
-package com.yourparkingspace.androidtechtest.models
+package com.example.androidtechtest.models
 
 import com.google.gson.annotations.SerializedName
 

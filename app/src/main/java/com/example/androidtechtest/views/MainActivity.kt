@@ -1,4 +1,4 @@
-package com.yourparkingspace.androidtechtest.views
+package com.example.androidtechtest.views
 
 import android.os.Bundle
 import android.util.Log
@@ -36,14 +36,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.yourparkingspace.androidtechtest.BuildConfig
-import com.yourparkingspace.androidtechtest.models.HotSubmissionListViewData
-import com.yourparkingspace.androidtechtest.ui.theme.AndroidTechTestTheme
-import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.GetHotSubmissions
-import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.ScrollReachEdgeListener
-import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.StatedBoolean
-import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.StatedString
-import com.yourparkingspace.androidtechtest.viewmodels.viewassistant.SubmissionListViewModel
+import com.example.androidtechtest.BuildConfig
+import com.example.androidtechtest.models.HotSubmissionListViewData
+import com.example.androidtechtest.ui.theme.AndroidTechTestTheme
+import com.example.androidtechtest.viewmodels.viewassistant.GetHotSubmissions
+import com.example.androidtechtest.viewmodels.viewassistant.ScrollReachEdgeListener
+import com.example.androidtechtest.viewmodels.viewassistant.StatedBoolean
+import com.example.androidtechtest.viewmodels.viewassistant.StatedString
+import com.example.androidtechtest.viewmodels.viewassistant.SubmissionListViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 

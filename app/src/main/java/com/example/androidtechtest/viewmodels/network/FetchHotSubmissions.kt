@@ -1,6 +1,6 @@
-package com.yourparkingspace.androidtechtest.viewmodels.network
+package com.example.androidtechtest.viewmodels.network
 
-import com.yourparkingspace.androidtechtest.models.GetHotSubmissionResponseData
+import com.example.androidtechtest.models.GetHotSubmissionResponseData
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package com.yourparkingspace.androidtechtest.ui.theme
+package com.example.androidtechtest.ui.theme
 
 import android.app.Activity
 import android.os.Build

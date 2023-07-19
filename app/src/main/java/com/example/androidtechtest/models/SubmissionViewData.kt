@@ -1,4 +1,4 @@
-package com.yourparkingspace.androidtechtest.models
+package com.example.androidtechtest.models
 
 data class SubmissionViewData(
     val id: String,

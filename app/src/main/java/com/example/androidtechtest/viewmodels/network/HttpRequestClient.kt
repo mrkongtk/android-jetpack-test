@@ -1,4 +1,4 @@
-package com.yourparkingspace.androidtechtest.viewmodels.network
+package com.example.androidtechtest.viewmodels.network
 
 import okhttp3.OkHttpClient
 

@@ -1,4 +1,4 @@
-package com.yourparkingspace.androidtechtest.ui.theme
+package com.example.androidtechtest.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

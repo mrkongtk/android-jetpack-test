@@ -1,9 +1,9 @@
-package com.yourparkingspace.androidtechtest.viewmodels.viewassistant
+package com.example.androidtechtest.viewmodels.viewassistant
 
-import com.yourparkingspace.androidtechtest.models.GetHotSubmissionResponseData
-import com.yourparkingspace.androidtechtest.models.HotSubmissionListViewData
-import com.yourparkingspace.androidtechtest.models.SubmissionViewData
-import com.yourparkingspace.androidtechtest.viewmodels.network.FetchHotSubmissions
+import com.example.androidtechtest.models.GetHotSubmissionResponseData
+import com.example.androidtechtest.models.HotSubmissionListViewData
+import com.example.androidtechtest.models.SubmissionViewData
+import com.example.androidtechtest.viewmodels.network.FetchHotSubmissions
 import io.reactivex.rxjava3.core.Observable
 
 /**

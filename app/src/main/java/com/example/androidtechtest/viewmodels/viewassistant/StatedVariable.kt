@@ -1,4 +1,4 @@
-package com.yourparkingspace.androidtechtest.viewmodels.viewassistant
+package com.example.androidtechtest.viewmodels.viewassistant
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue

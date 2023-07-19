@@ -1,4 +1,4 @@
-package com.yourparkingspace.androidtechtest
+package com.example.androidtechtest
 
 import org.junit.Test
 

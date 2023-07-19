@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.yourparkingspace.androidtechtest'
+    namespace 'com.example.androidtechtest'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.yourparkingspace.androidtechtest"
+        applicationId "com.example.androidtechtest"
         minSdk 23
         targetSdk 33
         versionCode 1

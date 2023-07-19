@@ -1,9 +1,9 @@
-package com.yourparkingspace.androidtechtest.viewmodels.viewassistant
+package com.example.androidtechtest.viewmodels.viewassistant
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
-import com.yourparkingspace.androidtechtest.models.SubmissionViewData
+import com.example.androidtechtest.models.SubmissionViewData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
